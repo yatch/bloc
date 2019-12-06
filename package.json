@@ -10,6 +10,7 @@
   "dependencies": {
     "core-js": "^3.4.3",
     "leaflet": "^1.6.0",
+    "leaflet-pulse-icon": "^0.1.0",
     "vue": "^2.6.10",
     "vue2-leaflet": "^2.2.1",
     "vuetify": "^2.1.0"
