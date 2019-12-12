@@ -1,5 +1,8 @@
 # bloc
 
+https://leaflet-extras.github.io/leaflet-providers/preview/
+https://www.eclipse.org/paho/files/jsdoc/Paho.MQTT.Client.html
+
 ## Project setup
 ```
 npm install
