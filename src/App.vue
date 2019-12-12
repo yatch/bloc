@@ -1,60 +1,112 @@
 <template>
-  <v-app>
-    <v-app-bar
-      app
-      color="primary"
-      dark
+<v-app>
+  <v-app-bar
+    app
+    absolute
+    dense
     >
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
-
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
-
-      <v-spacer></v-spacer>
-
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
+    <v-toolbar-title>
+      Bloc: <b>B</b>link <b>Loc</b>alization
+    </v-toolbar-title>
+    <ConnectivityBadge/>
+    <v-btn
+      v-if="showButton"
+      @click="clickHandler"
+      small
       >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
-    </v-app-bar>
-
-    <v-content>
-      <HelloWorld/>
-    </v-content>
-  </v-app>
+      {{ buttonText }}
+    </v-btn>
+    <v-spacer></v-spacer>
+    <v-checkbox
+      hide-details
+      v-model="showAnchors"
+      label="Show Anchors"
+      >
+    </v-checkbox>
+  </v-app-bar>
+  <v-content>
+    <v-container
+      class="fill-height"
+      >
+      <FindTags/>
+    </v-container>
+    <ErrorDialog/>
+  </v-content>
+  <v-footer padless>
+    <v-row class="text-right">
+      <v-col>
+      </v-col>
+    </v-row>
+  </v-footer>
+</v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
+import FindTags from './components/FindTags';
+import ErrorDialog from './components/ErrorDialog';
+import ConnectivityBadge from './components/ConnectivityBadge'
+import mqttClient from './mqtt-client.js';
+
 
 export default {
   name: 'App',
 
   components: {
-    HelloWorld,
+    FindTags,
+    ErrorDialog,
+    ConnectivityBadge
   },
 
-  data: () => ({
-    //
-  }),
+  data () {
+    return {
+      mqttClient: undefined
+    }
+  },
+
+  computed: {
+    mqttBroker () { return this.$store.state.mqttBroker; },
+    systemStatus () { return this.$store.state.systemStatus; },
+    showButton () {
+      return this.systemStatus === 'connected';
+    },
+    buttonText () {
+      if (this.systemStatus === 'connected') {
+        return 'get config';
+      } else {
+        return '';
+      }
+    },
+    showAnchors: {
+      get: function () {
+        return this.$store.state.showAnchors;
+      },
+      set: function (newValue) {
+        this.$store.state.showAnchors = newValue;
+      }
+    }
+  },
+
+  methods: {
+    mqttClientCallback: function () {
+      // newState
+    },
+    clickHandler () {
+      if (this.systemStatus === 'disconnected') {
+        this.mqttClient.connect();
+      } else if (this.systemStatus === 'connected') {
+        this.mqttClient.getConfig();
+      } else {
+        // do nothing
+      }
+    }
+  },
+
+  mounted: function () {
+    this.$nextTick(function () {
+      this.mqttClient = new mqttClient(this.mqttBroker,
+                                       this.$store);
+      this.mqttClient.connect();
+    });
+  }
 };
 </script>
