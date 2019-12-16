@@ -13,7 +13,7 @@ import yaml
 DEFAULT_CONFIG_FILE_PATH = os.path.join(os.path.dirname(__file__),
                                         'config.yml')
 
-MQTT_BROKER_HOST = 'broker.hivemq.com'
+MQTT_BROKER_HOST = 'mqtt.eclipse.org'
 MQTT_BROKER_PORT = 1883
 MQTT_TOPIC = 'bloc/demo'
 

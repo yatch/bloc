@@ -1,8 +1,9 @@
 export default {
   mqttBroker: {
-    hostname: 'broker.hivemq.com',
-    port: 8000,
+    hostname: 'mqtt.eclipse.org',
+    port: 443,
+    tls: true,
     path: '/mqtt',
-    topic: 'bloc/demo'
+    topic: 'bloc/demo',
   }
 }

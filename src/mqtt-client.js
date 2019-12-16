@@ -4,9 +4,10 @@ import PahoMQTT from 'paho-mqtt/paho-mqtt.js';
 
 export default class {
   constructor(mqttBroker, $store) {
-    this.client = new PahoMQTT.Client(mqttBroker.hostname,
-                                      mqttBroker.port,
-                                      mqttBroker.path,
+    this.config = mqttBroker;
+    this.client = new PahoMQTT.Client(this.config.hostname,
+                                      this.config.port,
+                                      this.config.path,
                                       'clientId');
     this.client.onConnectionLost = (responseObject) => {
       this.onDisconnected(responseObject.errorMessage)
@@ -22,7 +23,8 @@ export default class {
     this.client.connect({
       onSuccess: () => this.onConnected(),
       onFailure: () => this.onDisconnected(),
-      reconnect: false
+      reconnect: false,
+      useSSL: this.config.tls
     });
   }
 
