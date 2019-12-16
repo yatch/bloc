@@ -2,7 +2,7 @@ language: node_js
 env:
   - VUE_BASE_PATH="gh-pages"
 node_js:
-  - 8
+  - lts/*
 cache: npm
 script:
   - npm run build
