@@ -5,8 +5,8 @@ import store from './store'
 import { Icon } from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import 'leaflet/dist/leaflet.js'
-import 'leaflet-pulse-icon/dist/L.Icon.Pulse.js'
-import 'leaflet-pulse-icon/dist/L.Icon.Pulse.css'
+import 'leaflet-pulse-icon/src/L.Icon.Pulse.js'
+import 'leaflet-pulse-icon/src/L.Icon.Pulse.css'
 
 delete Icon.Default.prototype._getIconUrl;
 Icon.Default.mergeOptions({
