@@ -6,7 +6,8 @@
     dense
     >
     <v-toolbar-title>
-      Bloc: <b>B</b>link <b>Loc</b>alization
+      Bloc
+      <span class="hidden-md-and-down">: <b>B</b>link <b>Loc</b>alization</span>
     </v-toolbar-title>
     <ConnectivityBadge/>
     <v-btn
